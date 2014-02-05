@@ -1,0 +1,59 @@
+Scoop scoop1;
+Scoop scoop2;
+Scoop scoop3;
+
+void setup (){
+  size (500,500);
+  background(255);
+  scoop1 = new Scoop(292,240,70,70);
+  scoop2 = new Scoop(218,237,95,80);
+  scoop3 = new Scoop(250,200,110,100);
+}
+ 
+void draw (){
+  smooth();
+  //rotate(PI/8);
+  scoop1.display();
+  scoop2.display();
+  scoop3.display();
+  
+// Ice cream cone
+  fill(0);
+  triangle(width/2,400,width/2-50,250,width/2+50,250);
+  
+  // Cone made of triangles
+  noFill();
+  stroke(255,255,255);
+  for(int x=5; x<width; x+=10){
+    for(int y=283; y<height; y+=10)
+    //triangle(x,y,x-5,y+8,x+5,y+8);
+    rect(x,y,10,10);
+  }
+  
+}
+
+
+// Class for duplicating ice cream scoops
+class Scoop { 
+  float xpos;
+  float ypos;
+  float widthradius;
+  float heightradius;
+
+  Scoop(float tempXpos, float tempYpos, float tempW, float tempH) { 
+    xpos = tempXpos;
+    ypos = tempYpos;
+    widthradius = tempW;
+    heightradius = tempH;
+  }
+
+  void display() {
+    noStroke();
+    fill(0);
+    rectMode(CENTER);
+    ellipse(xpos,ypos,widthradius,heightradius);
+  }
+}
+  
+ 
+
