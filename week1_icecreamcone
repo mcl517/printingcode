@@ -1,3 +1,6 @@
+import processing.pdf.*;
+boolean savePDF = false;
+
 Scoop scoop1;
 Scoop scoop2;
 Scoop scoop3;
@@ -8,9 +11,14 @@ void setup (){
   scoop1 = new Scoop(292,240,70,70);
   scoop2 = new Scoop(218,237,95,80);
   scoop3 = new Scoop(250,200,110,100);
+  
 }
  
 void draw (){
+  if ( savePDF ) {
+    beginRecord( PDF, "icecream.pdf" );
+ }
+ 
   smooth();
   //rotate(PI/8);
   scoop1.display();
@@ -30,6 +38,16 @@ void draw (){
     rect(x,y,10,10);
   }
   
+ if ( savePDF ) {
+  endRecord();
+  savePDF = false;
+ }
+}
+void keyPressed()
+{
+  if ( key == 's' ) {
+  savePDF = true;
+ }
 }
 
 
@@ -54,6 +72,3 @@ class Scoop {
     ellipse(xpos,ypos,widthradius,heightradius);
   }
 }
-  
- 
-
