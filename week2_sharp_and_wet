@@ -1,0 +1,73 @@
+import processing.pdf.*;
+boolean savePDF = false;
+
+float print_width = 17;
+float print_height = 12;
+float make_bigger = 40;
+float sharpx = width/4;
+
+void setup() {
+ 
+  smooth();
+  //size(1200, 600);
+  size(round(print_width * make_bigger), round(print_height * make_bigger));
+}
+
+void draw(){
+    if(savePDF)
+  {
+    println("Saving PDF");
+    beginRecord(PDF, "SharpWet" + year() + "_" + month()+ "_" + day() + "_" + hour() + "_" + minute() + "_" + second() + "_" + millis() + ".pdf"); 
+  }
+  
+  background(0);
+  
+  // SHARP
+  fill(255);
+  noStroke();
+  rect(0, 0, width/2, height);
+  noFill();
+  stroke(0);
+  strokeWeight(1);
+  beginShape();
+  for (int i = 0; i < height; i+=7) {
+    vertex(0, height);
+    vertex(width/4, i);
+    vertex(width/2, height);
+    vertex(width/4, i);
+    vertex(i, height);
+    vertex(sharpx, i);
+    vertex(i, height);
+  }
+  endShape();
+  
+  // WET
+  stroke(255);
+  strokeWeight(10);
+  noFill();
+  translate(2.95*width/4, 5*height/5);
+  scale(0.039);
+
+  for (int j = 0; j < 1000; j+=2) {
+    rotate(radians(243/8));
+    beginShape();
+    vertex(0, 0);
+    bezierVertex(noise(j)*-121, j*8, 1586, j*width/287, 67, 27);
+    endShape(CLOSE);
+  }
+  
+  if(savePDF)
+  {
+    endRecord();
+    println("Saved PDF");
+    savePDF = false;
+  }
+}
+
+  
+void keyPressed(){
+  if(key == 's')
+  {  
+    savePDF = true;
+  }
+}
