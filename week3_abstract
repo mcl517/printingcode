@@ -1,0 +1,91 @@
+
+import processing.pdf.*;
+
+// Set these variables to the print size you want (in inches)
+// The resulting PDF will be this aspect ratio
+float print_width = 15.5;
+float print_height = 26;
+float make_bigger = 40;
+
+import toxi.color.*;
+import toxi.color.theory.*;
+import toxi.util.datatypes.*;
+
+void setup() {
+  smooth();
+  size(round(print_width * make_bigger), round(print_height * make_bigger), PDF, "lightlightlight" + year() + "_" + month()+ "_" + day() + "_" + hour() + "_" + minute() + "_" + second() + "_" + millis() + ".pdf");
+}
+
+void draw(){
+
+  float a1 = width/2;
+  float a2 = height/3;
+  float b1 = width/4;
+  float b2 = 2*(height/3);
+  float c1 = width/2;
+  float c2 = 2*(height/3)+20;
+  float d1 = 2*(width/3)+40;
+  float d2 = b2;
+  
+  // Addtl vertices for polygon #2
+  float x1 = c1;
+  float x2 = c2 - 50;
+  float y1 = a1;
+  float y2 = c2 + 120;
+  
+  float colorfill = random(1);
+  
+  colorMode(HSB, 1, 1, 1,1);
+
+  TColor color1 = TColor.newHSV(colorfill, random(.9,1), 1);
+  TColor color2 = TColor.newHSV(colorfill, random(.7,.9), random(.7,.9));
+  TColor color3 = TColor.newHSV(colorfill, .5, .1);
+  
+  background(color3.hue(), color3.saturation(), color3.brightness(),.9);
+   
+  // Polygon #1
+  noStroke();
+  fill(color1.hue(), color1.saturation(), color1.brightness(),.8);
+  beginShape(QUADS);
+  vertex(a1, a2);
+  vertex(b1, b2);
+  vertex(c1-30, c2);
+  vertex(d1, d2);
+  endShape();
+  
+  // Polygon #2
+  noStroke();
+  color2.lighten(.8);
+  color2.desaturate(.5);
+  fill(color2.hue(), color2.saturation(), color2.brightness(),.8);
+  beginShape(QUADS);
+  vertex(b1,b2);
+  vertex(x1,x2);
+  vertex(d1,d2);
+  vertex(y1,y2);
+  endShape();
+  
+  strokeWeight(1.8);
+  stroke(color1.hue(), color1.saturation(), color1.brightness(),.2);
+  line(a1,a2,x1,x2);
+  stroke(color2.hue(), color2.saturation(), color2.brightness(),.09);
+  line(c1,c2,y1,y2);
+
+// Lighting effect
+for (int i = 0; i<150; i+=10){
+  color1.lighten(.8-i*.03);
+  color1.desaturate(.7-i*.05);
+    stroke(color1.hue(), color1.saturation(), color1.brightness(),1-i*.01);
+    strokeWeight(15);
+    noFill();
+    beginShape();
+    vertex(a1,a2-i);
+    vertex(b1-i-8,b2+2);
+    vertex(y1,y2+i);
+    vertex(d1+i+8,d2+2);
+    endShape(CLOSE);
+}
+
+println("Finished");
+exit();
+}
